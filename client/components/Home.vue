@@ -1,6 +1,7 @@
 <template>
   <div>
     <header-tpl class="header" :connected="connected"></header-tpl>
+    <input class="search" type="text" placeholder="Search" v-model="search" @input="functionTest">
     <words-tpl :words="words"></words-tpl>
   </div>
 </template>
@@ -17,6 +18,20 @@ module.exports = {
   props: {
     connected: { type: Boolean },
     words: { type: Array }
+  },
+  data () {
+    return {
+      search: ""
+    }
+  },
+  methods: {
+    functionTest() {
+      console.log(this.search)
+      this.getWords()
+    },
+    getWords() {
+      this.$emit('get-words', this.search.toLowerCase())
+    }
   }
 }
 </script>
@@ -30,5 +45,9 @@ module.exports = {
 }
 .header {
   width: 100%;
+}
+
+.search {
+  text-align: center;
 }
 </style>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Mon Dictionnaire</title>
-        <link rel="icon" type="image/png" href="./assets/Logo.png">
+        <link rel="icon" type="image/png" href="./assets/Logo.svg">
         <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/http-vue-loader/src/httpVueLoader.js"></script>
@@ -21,6 +21,7 @@
               @create-account="createAccount"
               @login="login"
               @logout="logout"
+              @get-words="getWords"
               @get-word="getWord"
             ></router-view>
           </main>

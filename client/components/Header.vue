@@ -1,7 +1,7 @@
 <template>
     <div class="header">
-        <img src="./assets/logo.png">
-        <h1>  Mon dictionnaire  &#128433;&#65039; </h1>
+        <img src="./assets/logo.svg">
+        <h1>  Mon dictionnaire </h1>
         <nav>
             <router-link v-if="connected" to='/profil'>Profil</router-link>
             <router-link v-else to='/login'>Connexion</router-link>

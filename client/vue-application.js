@@ -50,6 +50,11 @@ var app = new Vue({
       console.log(res.data)
       router.push('/')
     },
+    async getWords (like) {
+      const res = await axios.get('api/words/' + like)
+      this.words = res.data
+      console.log(res.data)
+    },
     async getWord (word) {
       const res = await axios.get('api/word/' + word)
       this.word = res.data

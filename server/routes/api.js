@@ -108,9 +108,19 @@ router.post('/logout', async (req,res) => {
 
 
 router.get('/words', async (req,res) => {
-  // Récupération des algo existants
+  // Récupération de tous les mots
   const result = await client.query({
     text: 'SELECT * FROM words'
+  })
+  console.log(result.rows)
+  res.json(result.rows)
+})
+
+router.get('/words/:like', async (req,res) => {
+  const like = '%' + req.params.like + '%'
+  const result = await client.query({
+    text: "SELECT * FROM words WHERE word LIKE $1",
+    values: [like]
   })
   console.log(result.rows)
   res.json(result.rows)
