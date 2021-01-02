@@ -1,0 +1,30 @@
+<!doctype>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>Mon Dictionnaire</title>
+        <link rel="icon" type="image/png" href="./assets/Logo.png">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/http-vue-loader/src/httpVueLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-router/dist/vue-router.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vis@4.21.0-EOL/dist/vis.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+          <main>
+            <router-view
+              :words="words"
+              :word="word"
+              :connected="connected"
+              @create-account="createAccount"
+              @login="login"
+              @logout="logout"
+              @get-word="getWord"
+            ></router-view>
+          </main>
+        </div>
+        <script src="/vue-application.js"></script>
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<template>
+    <div class="header">
+        <img src="./assets/logo.png">
+        <h1>  Mon dictionnaire  &#128433;&#65039; </h1>
+        <nav>
+            <router-link v-if="connected" to='/profil'>Profil</router-link>
+            <router-link v-else to='/login'>Connexion</router-link>
+            
+        </nav>
+    </div>
+</template>
+
+<script>
+module.exports = {
+  props: {
+      connected: Boolean
+  }
+}
+</script>
+
+<style scoped>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: white;
+        z-index: 9001;
+    }
+    .header {
+        position: sticky;
+        top: 0px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-top-left-radius:10px;
+        border-top-right-radius:10px;
+        border-bottom-left-radius: 50% 20%;
+        border-bottom-right-radius: 50% 20%;
+  
+    }
+
+    .header img {
+        width: 150px;
+        height: 100px;
+        margin: auto;
+        border-radius: 35%;
+    }
+    .header h1 {
+        margin: auto;
+    }
+    .header nav {
+        margin: auto;
+    }
+
+    nav * {
+            text-decoration: none;
+            color: black;
+            padding: 5px 20px;
+            transition: 0.3s ease;
+            border: 1px solid black
+    }
+        
+    nav *:hover {
+            color: white;
+            background-color: black;
+    }
+</style>
