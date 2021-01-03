@@ -26,12 +26,12 @@ module.exports = {
 .words {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .word {
     margin: 10px;
-    padding: 50px;
+    padding: 10px;
     border: 2px solid black;
     border-radius: 10px;
     transform: translateY(0px);

@@ -1,7 +1,9 @@
 <template>
   <div>
     <header-tpl class="header" :connected="connected"></header-tpl>
-    <input class="search" type="text" placeholder="Search" v-model="search" @input="functionTest">
+    <div class="search-container">
+      <input class="search" type="text" placeholder="Search" v-model="search" @input="functionTest">
+    </div>
     <words-tpl :words="words"></words-tpl>
   </div>
 </template>
@@ -45,9 +47,21 @@ module.exports = {
 }
 .header {
   width: 100%;
+  
+}
+
+.search-container {
+  text-align: center;
+  margin: 5%
 }
 
 .search {
   text-align: center;
+  width: 30%;
+  height: 5%;
+  border-radius: 10px;
+  font-size: 20px;
+  outline: none;
+  transition: .3s;
 }
 </style>

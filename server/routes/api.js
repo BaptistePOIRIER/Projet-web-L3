@@ -136,4 +136,16 @@ router.get('/word/:word', async (req,res) => {
   res.json(result.rows[0])
 })
 
+router.post('/define', async(req,res) => {
+  const id = parseInt(req.body.id)
+  const newDefinition = req.body.newDefinition
+  console.log(id,newDefinition)
+
+  // Stockage de la nouvelle définition
+  client.query({
+    text: 'INSERT INTO definitions(word_id,definition,rating,upvotes,downvotes) VALUES ($1,$2,$3,$4,$5)',
+    values: [id,newDefinition,0,0,0]
+  })
+  res.status(200).json({ message: 'Successfully registered'})
+})
 module.exports = router

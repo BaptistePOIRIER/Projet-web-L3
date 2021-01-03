@@ -33,11 +33,6 @@ module.exports = {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        border-top-left-radius:10px;
-        border-top-right-radius:10px;
-        border-bottom-left-radius: 50% 20%;
-        border-bottom-right-radius: 50% 20%;
-  
     }
 
     .header img {
