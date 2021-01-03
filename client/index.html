@@ -17,12 +17,14 @@
             <router-view
               :words="words"
               :word="word"
+              :definitions="definitions"
               :connected="connected"
               @create-account="createAccount"
               @login="login"
               @logout="logout"
               @get-words="getWords"
               @get-word="getWord"
+              @get-definitions="getDefinitions"
               @submit-new-definition="submitNewDefinition"
             ></router-view>
           </main>

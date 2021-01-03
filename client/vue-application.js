@@ -22,6 +22,7 @@ var app = new Vue({
   data: {
     words: [],
     word: {},
+    definitions: [],
     connected: true
   },
   async mounted () {
@@ -58,6 +59,11 @@ var app = new Vue({
     async getWord (word) {
       const res = await axios.get('api/word/' + word)
       this.word = res.data
+      console.log(res.data)
+    },
+    async getDefinitions (word) {
+      const res = await axios.get('api/definitions/' + word)
+      this.definitions = res.data
       console.log(res.data)
     },
     async submitNewDefinition (parameters) {

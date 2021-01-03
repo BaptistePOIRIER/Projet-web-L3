@@ -11,8 +11,8 @@
           <div class="rating">
             <p>{{definition.rating}} ★</p>
             <div v-if="connected" class="vote-container">
-              <p class="vote up">+</p>
-              <p class="vote down">-</p>
+              <button class="vote up">+</button>
+              <button class="vote down">-</button>
             </div>
           </div>
         </div>
@@ -32,22 +32,18 @@ module.exports = {
   },
   props: {
     connected: { type: Boolean },
-    word: { type: Object }
+    word: { type: Object },
+    definitions: { type: Array }
   },
   data () {
     return {
-      parameters: {},
-      definitions: [
-        {definition: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem', rating: 22, upvotes: 43, downvotes: 4},
-        {definition: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem', rating: 12, upvotes: 43, downvotes: 4},
-        {definition: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem', rating: 4, upvotes: 43, downvotes: 4}
-      ],
       newDefinition: ''
     }
   },
   mounted () {
-    this.parameters = this.$route.query
-    this.$emit('get-word', this.parameters.word)
+    console.log(this.$route.query.word)
+    this.$emit('get-word', this.$route.query.word)
+    this.$emit('get-definitions', this.$route.query.word)
   },
   methods: {
     submitNewDefinition() {
@@ -109,6 +105,8 @@ module.exports = {
   margin: 5px;
   border-radius: 10px;
   transition: .4s;
+  background: none;
+  outline:none;
 }
 
 .vote:hover {
