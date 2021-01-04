@@ -3,6 +3,7 @@ const router = express.Router()
 //const articles = require('../data/articles.js')
 const bcrypt = require('bcrypt')
 const { Client } = require('pg')
+const dotenv = require('dotenv');
 dotenv.config();
 
 const client = new Client({
