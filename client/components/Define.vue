@@ -12,8 +12,8 @@
           <div class="rating">
             <p>{{definition.rating}} ★</p>
             <div v-if="connected" class="vote-container">
-              <button class="vote up">+</button>
-              <button class="vote down">-</button>
+              <button v-on:click="vote(definition,'upvote')" class="vote up" v-bind:class="{ selected: definition.personal_rating == 1 }">+</button>
+              <button v-on:click="vote(definition,'downvote')" class="vote down" v-bind:class="{ selected: definition.personal_rating == -1 }">-</button>
             </div>
           </div>
         </div>
@@ -56,6 +56,30 @@ module.exports = {
         id: this.word.id
       }
       this.$emit('submit-new-definition', parameters)
+      this.getDefinitions()
+    },
+    async vote(definition,vote) {
+      console.log(definition,vote)
+      const parameters = {
+        definitionId: definition.id,
+        value: 0
+      }
+
+      // Click upvote
+      if (vote == 'upvote') {
+        if (definition.personal_rating != 1) {
+          parameters.value = 1
+        }
+      }
+
+      // Click downvote
+      if (vote == 'downvote') {
+        if (definition.personal_rating != -1) {
+          parameters.value = -1
+        }
+      }
+      console.log(parameters)
+      await this.$emit('vote', parameters)
       this.getDefinitions()
     }
   }
@@ -110,24 +134,58 @@ module.exports = {
   margin: 5px;
   border-radius: 10px;
   transition: .4s;
-  background: none;
-  outline:none;
+  outline: none;
 }
 
-.vote:hover {
+.vote:not(.selected) {
+  background: none;
+}
+
+.vote.selected {
+  background-color: rgb(0, 0, 0)  
+}
+
+.vote:hover:not(.selected) {
   background-color: rgb(0, 0, 0);
   cursor: pointer
 }
 
-.up:hover {
+.vote:hover.selected {
+  background: none;
+  cursor: pointer
+}
+
+.up.selected {
+  border: 1px lime solid;
+  color: lime;
+}
+
+.up:hover:not(.selected) {
   border: 1px lime solid;
   color: lime;
   transition: .4s;
 }
 
-.down:hover {
+.up:hover.selected {
+  border: 1px black solid;
+  color: black;
+  transition: .4s;
+}
+
+.down.selected {
   border: 1px red solid;
   color: red;
+}
+
+.down:hover:not(.selected) {
+  border: 1px red solid;
+  color: red;
+  transition: .4s;
+}
+
+.down:hover.selected {
+  border: 1px black solid;
+  color: black;
   transition: .4s;
 }
 </style>

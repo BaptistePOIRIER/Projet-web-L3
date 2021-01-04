@@ -45,7 +45,7 @@ var app = new Vue({
         this.connected = false
       }
     },
-    async logout() {
+    async logout () {
       this.connected = false
       const res = await axios.post('api/logout')
       console.log(res.data)
@@ -66,8 +66,12 @@ var app = new Vue({
       this.definitions = res.data
       console.log(res.data)
     },
+    async vote (parameters) {
+      const res = await axios.post('api/vote', parameters)
+      console.log(res.data)
+    },
     async submitNewDefinition (parameters) {
-      await axios.post('api/define', parameters)
+      const res = await axios.post('api/define', parameters)
       console.log(res.data)
     }
   }

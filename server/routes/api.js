@@ -164,27 +164,57 @@ router.get('/definitions/:word', async(req,res) => {
   const word = req.params.word
   const userId = req.session.userId || -1
   const result = await client.query({
-    text: `SELECT definitions.definition,users.name,COALESCE(rating.rating,0) as rating,COALESCE(personal_rating.value, 0) as personal_rating
+    text: `SELECT definitions.id,definitions.definition,users.name,COALESCE(rating.rating,0) as rating,COALESCE(personal_rating.value, 0) as personal_rating
     FROM definitions 
     LEFT JOIN words ON definitions.word_id = words.id
     LEFT JOIN users ON definitions.user_id = users.id
     LEFT JOIN (SELECT votes.definition_id,SUM(votes.value) as rating FROM votes GROUP BY votes.definition_id) as rating ON rating.definition_id = definitions.id
     LEFT JOIN (SELECT votes.definition_id,votes.value FROM votes WHERE votes.user_id = $1) as personal_rating ON personal_rating.definition_id = definitions.id
-    WHERE words.word = $2`,
+    WHERE words.word = $2
+    ORDER BY rating DESC`,
     values: [userId,word]
   })
-  console.log(result.rows)
+  //console.log(result.rows)
   res.json(result.rows)
 })
 
+/**
+ * Cette route permet de voter pour une définition
+ */
+router.post('/vote', async(req,res) => {
+  const definitionId = parseInt(req.body.definitionId)
+  const value = parseInt(req.body.value)
+  console.log(definitionId,value)
+
+  // Connecté ?
+  if (typeof req.session.userId !== 'number') {
+    res.status(401).send({ message: 'Not logged in' })
+    return
+  }
+
+  // Suppresion de l'ancien vote:
+  await client.query({
+    text: 'DELETE FROM votes WHERE definition_id = $1 AND user_id = $2',
+    values: [definitionId,req.session.userId]
+  })
+
+  // Création du nouveau vote:
+  if (value != 0) {
+    await client.query({
+      text: 'INSERT INTO votes(user_id,definition_id,value) VALUES ($1,$2,$3)',
+      values: [req.session.userId,definitionId,value]
+    })
+  }
+  res.status(200).send({ message: 'Succesfully registered vote'})
+})
 
 /**
  * Cette route permet de créer une définition
  */
 router.post('/define', async(req,res) => {
-  const id = parseInt(req.body.id)
+  const wordId = parseInt(req.body.id)
   const newDefinition = req.body.newDefinition
-  console.log(id,newDefinition)
+  console.log(wordId,newDefinition)
 
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
@@ -194,8 +224,8 @@ router.post('/define', async(req,res) => {
 
   // Stockage de la nouvelle définition
   client.query({
-    text: 'INSERT INTO definitions(word_id,user_id,definition,rating,upvotes,downvotes) VALUES ($1,$2,$3,$4,$5,$6)',
-    values: [id,req.session.userId,newDefinition,0,0,0]
+    text: 'INSERT INTO definitions(word_id,user_id,definition) VALUES ($1,$2,$3)',
+    values: [wordId,req.session.userId,newDefinition]
   })
   res.status(200).json({ message: 'Successfully registered'})
 })
