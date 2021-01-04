@@ -3,13 +3,21 @@ const router = express.Router()
 //const articles = require('../data/articles.js')
 const bcrypt = require('bcrypt')
 const { Client } = require('pg')
+dotenv.config();
 
 const client = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  password: 'secret',
-  database: 'Projet-web-L3'
- })
+ connectionString: process.env.DATABASE_URL,
+ ssl: {
+     rejectUnauthorized: false
+ }
+})
+
+//const client = new Client({
+//  user: 'postgres',
+//  host: 'localhost',
+//  password: 'secret',
+//  database: 'Projet-web-L3'
+// })
 
 client.connect()
 

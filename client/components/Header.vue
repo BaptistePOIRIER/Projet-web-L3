@@ -3,6 +3,7 @@
         <img src="./assets/logo.svg">
         <h1>  Mon dictionnaire </h1>
         <nav>
+            <router-link to='/top'>TOP</router-link>
             <router-link v-if="connected" to='/profil'>Profil</router-link>
             <router-link v-else to='/login'>Connexion</router-link>
             
@@ -33,19 +34,18 @@ module.exports = {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-content: center;
     }
 
     .header img {
-        width: 150px;
+        width: 300px;
         height: 100px;
-        margin: auto;
-        border-radius: 35%;
     }
     .header h1 {
         margin: auto;
     }
     .header nav {
-        margin: auto;
+        margin: 40px 40px 0px 80px
     }
 
     nav * {

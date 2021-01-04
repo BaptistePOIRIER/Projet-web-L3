@@ -10,7 +10,7 @@
             <p>by {{definition.name}}</p>
           </div>
           <div class="rating">
-            <p>{{definition.rating}} ★</p>
+            <p class="definition">{{definition.rating}} ★</p>
             <div v-if="connected" class="vote-container">
               <button v-on:click="vote(definition,'upvote')" class="vote up" v-bind:class="{ selected: definition.personal_rating == 1 }">+</button>
               <button v-on:click="vote(definition,'downvote')" class="vote down" v-bind:class="{ selected: definition.personal_rating == -1 }">-</button>
