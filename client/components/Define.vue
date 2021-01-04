@@ -6,11 +6,11 @@
             <h4 v-if="i == 0"> * Meilleur définition *</h4>
             <h4 v-if="i != 0"> #{{i+1}}</h4>
             <h2 class="word">{{word.word}}</h2>
-            <p>{{definition.definition}}</p>
+            <p class="definition">{{definition.definition}}</p>
             <p>by {{definition.name}}</p>
           </div>
           <div class="rating">
-            <p class="definition">{{definition.rating}} ★</p>
+            <p >{{definition.rating}} ★</p>
             <div v-if="connected" class="vote-container">
               <button v-on:click="vote(definition,'upvote')" class="vote up" v-bind:class="{ selected: definition.personal_rating == 1 }">+</button>
               <button v-on:click="vote(definition,'downvote')" class="vote down" v-bind:class="{ selected: definition.personal_rating == -1 }">-</button>
@@ -100,7 +100,7 @@ module.exports = {
 .card {
   margin: 2% 20% 2% 20%;
   padding: 20px;
-  background-color: rgb(230, 230, 230);
+  background-color: #393e46;
   border-radius: 20px;
   display: flex;
   flex-direction: row;
@@ -116,7 +116,8 @@ module.exports = {
 .rating {
   text-align: center;
   padding: 10px;
-  background-color: rgb(255, 255, 255);
+  background-color: #232931;
+  color: #eeeeee;
   border-radius: 20px;
   border: 3px black solid
 }
