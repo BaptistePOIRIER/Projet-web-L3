@@ -17,28 +17,41 @@ client.connect()
  * Cette route permet d'inscrire un utilisateur
  */
 router.post('/register', async (req,res) => {
+  const name = req.body.name
   const email = req.body.email
   const password = req.body.password
 
   // Récupération des email existants
-  const result = await client.query({
+  const result_email = await client.query({
     text: 'SELECT email FROM users'
   })
   
   // Email déjà utilisé dans la base de donnée ?
-  const user_email = result.rows.find(a => a.email === email)
+  const user_email = result_email.rows.find(a => a.email === email)
   if (user_email) {
     res.status(400).json({ message: 'Email already used'})
     return
   }
   
+  // Récupération des noms existants
+  const result_name = await client.query({
+    text: 'SELECT name FROM users'
+  })
+  
+  // Nom déjà utilisé dans la base de donnée ?
+  const user_name = result_name.rows.find(a => a.name === name)
+  if (user_name) {
+    res.status(400).json({ message: 'Name already used'})
+    return
+  }
+
   // Hashage du mot de passe
   const hash = await bcrypt.hash(password, 10)
   
   // Stockage de l'utilisateur
   client.query({
-    text: 'INSERT INTO users(email,password) VALUES ($1,$2)',
-    values: [email,hash]
+    text: 'INSERT INTO users(name,email,password) VALUES ($1,$2,$3)',
+    values: [name,email,hash]
   })
   res.status(200).json({ message: 'Successfully registered'})
 })
@@ -84,7 +97,7 @@ router.post('/login', async (req,res) => {
 router.get('/me', async (req,res) => {
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
-    res.status(401).send({ message: 'No connected users' })
+    res.status(401).send({ message: 'Not logged in' })
     return
   }
 
@@ -166,10 +179,16 @@ router.post('/define', async(req,res) => {
   const newDefinition = req.body.newDefinition
   console.log(id,newDefinition)
 
+  // Connecté ?
+  if (typeof req.session.userId !== 'number') {
+    res.status(401).send({ message: 'Not logged in' })
+    return
+  }
+
   // Stockage de la nouvelle définition
   client.query({
-    text: 'INSERT INTO definitions(word_id,definition,rating,upvotes,downvotes) VALUES ($1,$2,$3,$4,$5)',
-    values: [id,newDefinition,0,0,0]
+    text: 'INSERT INTO definitions(word_id,user_id,definition,rating,upvotes,downvotes) VALUES ($1,$2,$3,$4,$5,$6)',
+    values: [id,req.session.userId,newDefinition,0,0,0]
   })
   res.status(200).json({ message: 'Successfully registered'})
 })

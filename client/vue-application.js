@@ -23,7 +23,7 @@ var app = new Vue({
     words: [],
     word: {},
     definitions: [],
-    connected: true
+    connected: false
   },
   async mounted () {
     const res = await axios.get('api/words')
@@ -67,8 +67,7 @@ var app = new Vue({
       console.log(res.data)
     },
     async submitNewDefinition (parameters) {
-      const res = await axios.post('api/define', parameters)
-      this.word = res.data
+      await axios.post('api/define', parameters)
       console.log(res.data)
     }
   }

@@ -2,7 +2,7 @@
   <div>
     <h2>Se connecter</h2>
     <input v-model="loginInfos.email" placeholder="Email">
-    <input v-model="loginInfos.password" placeholder="password">
+    <input v-model="loginInfos.password" placeholder="Password">
     <button @click="login()">Valider</button>
     <br>
     <router-link to='/register'>Créer un compte</router-link>

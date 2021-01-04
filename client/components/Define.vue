@@ -16,7 +16,7 @@
             </div>
           </div>
         </div>
-        <form>
+        <form v-if="connected">
           <input type="text" v-model="newDefinition">
           <button @click="submitNewDefinition()">Submit</button>
         </form>
@@ -43,15 +43,19 @@ module.exports = {
   mounted () {
     console.log(this.$route.query.word)
     this.$emit('get-word', this.$route.query.word)
-    this.$emit('get-definitions', this.$route.query.word)
+    this.getDefinitions()
   },
   methods: {
+    getDefinitions() {
+      this.$emit('get-definitions', this.$route.query.word)
+    },
     submitNewDefinition() {
       const parameters = {
         newDefinition: this.newDefinition,
         id: this.word.id
       }
       this.$emit('submit-new-definition', parameters)
+      this.getDefinitions()
     }
   }
 }

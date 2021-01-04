@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>Créer un compte</h2>
+    <input v-model="newAccount.name" placeholder="Name">
     <input v-model="newAccount.email" placeholder="Email">
     <input v-model="newAccount.password" placeholder="password">
     <button @click="createAccount()">Valider</button>
@@ -14,6 +15,7 @@ module.exports = {
   data () {
     return {
       newAccount: {
+          name: '',
           email: '',
           password: ''
       }
