@@ -7,6 +7,7 @@
             <h4 v-if="i != 0"> #{{i+1}}</h4>
             <h2 class="word">{{word.word}}</h2>
             <p>{{definition.definition}}</p>
+            <p>by {{definition.name}}</p>
           </div>
           <div class="rating">
             <p>{{definition.rating}} ★</p>
