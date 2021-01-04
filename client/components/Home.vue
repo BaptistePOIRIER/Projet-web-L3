@@ -56,19 +56,29 @@ module.exports = {
 
 .search {
   text-align: center;
-  width: 30%;
-  height: 5%;
+  width: 200px;
+  height: 50px;
   border-radius: 10px;
   font-size: 20px;
   outline: none;
-  transition: .3s;
   background-color: #4ecca3;
   border: 3px #eeeeee solid;
+  color: #eeeeee;
+  transition: .4s;
+}
+
+.search:focus {
+  width: 500px;
   color: #eeeeee;
 }
 
 ::placeholder {
-  color: #393e46cc;
+  color: #393e4699;
   font-style: italic;
+  transition: .3s;
+}
+
+.search:hover::placeholder {
+  color: #eeeeee;
 }
 </style>
