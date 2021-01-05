@@ -169,8 +169,9 @@ router.get('/word/:word', async (req,res) => {
 /**
  * Cette route permet de récupérer les définitions du mot recherché
  */
-router.get('/definitions/:word', async(req,res) => {
+router.get('/definitions/:word/:limit', async(req,res) => {
   const word = req.params.word
+  const limit = req.params.limit
   const userId = req.session.userId || -1
   const result = await client.query({
     text: `SELECT definitions.id,definitions.definition,users.name,COALESCE(rating.rating,0) as rating,COALESCE(personal_rating.value, 0) as personal_rating
@@ -180,8 +181,9 @@ router.get('/definitions/:word', async(req,res) => {
     LEFT JOIN (SELECT votes.definition_id,SUM(votes.value) as rating FROM votes GROUP BY votes.definition_id) as rating ON rating.definition_id = definitions.id
     LEFT JOIN (SELECT votes.definition_id,votes.value FROM votes WHERE votes.user_id = $1) as personal_rating ON personal_rating.definition_id = definitions.id
     WHERE words.word = $2
-    ORDER BY rating DESC`,
-    values: [userId,word]
+    ORDER BY rating DESC
+    LIMIT $3`,
+    values: [userId,word,limit]
   })
   //console.log(result.rows)
   res.json(result.rows)

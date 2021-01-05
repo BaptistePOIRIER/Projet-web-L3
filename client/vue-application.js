@@ -86,14 +86,16 @@ var app = new Vue({
       this.word = res.data
       console.log(res.data)
     },
-    async getDefinitions (word) {
-      const res = await axios.get('api/definitions/' + word)
+    async getDefinitions (parameters) {
+      const res = await axios.get('api/definitions/' + parameters.word + '/' + parameters.limit)
       this.definitions = res.data
       console.log(res.data)
     },
     async vote (parameters) {
       const res = await axios.post('api/vote', parameters)
       console.log(res.data)
+      const res2 = await axios.get('api/definitions/' + parameters.word + '/' + parameters.limit)
+      this.definitions = res2.data
     },
     async submitNewDefinition (parameters) {
       const res = await axios.post('api/define', parameters)

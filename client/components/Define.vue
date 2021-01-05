@@ -10,13 +10,14 @@
             <p>by {{definition.name}}</p>
           </div>
           <div class="rating">
-            <p >{{definition.rating}} ★</p>
+            <p>{{definition.rating}} ★</p>
             <div v-if="connected" class="vote-container">
               <button v-on:click="vote(definition,'upvote')" class="vote up" v-bind:class="{ selected: definition.personal_rating == 1 }">+</button>
               <button v-on:click="vote(definition,'downvote')" class="vote down" v-bind:class="{ selected: definition.personal_rating == -1 }">-</button>
             </div>
           </div>
         </div>
+        <button v-on:click="loadMore()">Load more</button>
         <form v-if="connected">
           <input type="text" v-model="newDefinition">
           <button @click="submitNewDefinition()">Submit</button>
@@ -39,17 +40,20 @@ module.exports = {
   data () {
     return {
       newDefinition: '',
-      definitions_amount: 5
+      definitions_amount: 3
     }
   },
   mounted () {
-    console.log(this.$route.query.word)
     this.$emit('get-word', this.$route.query.word)
     this.getDefinitions()
   },
   methods: {
     getDefinitions() {
-      this.$emit('get-definitions', this.$route.query.word)
+      const parameters = {
+        word: this.$route.query.word,
+        limit: this.definitions_amount
+      }
+      this.$emit('get-definitions', parameters)
     },
     submitNewDefinition() {
       const parameters = {
@@ -59,9 +63,10 @@ module.exports = {
       this.$emit('submit-new-definition', parameters)
       this.getDefinitions()
     },
-    async vote(definition,vote) {
-      console.log(definition,vote)
+    vote(definition,vote) {
       const parameters = {
+        word: this.word.word,
+        limit: this.definitions_amount,
         definitionId: definition.id,
         value: 0
       }
@@ -80,7 +85,10 @@ module.exports = {
         }
       }
       console.log(parameters)
-      await this.$emit('vote', parameters)
+      this.$emit('vote', parameters)
+    },
+    loadMore() {
+      this.definitions_amount += 1
       this.getDefinitions()
     }
   }
@@ -107,7 +115,7 @@ module.exports = {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  border: 3px black solid
+  border: 2px #eeeeee solid
 }
 
 .word {
@@ -120,7 +128,7 @@ module.exports = {
   background-color: #232931;
   color: #eeeeee;
   border-radius: 20px;
-  border: 3px black solid
+  border: 2px #4ecca3 solid
 }
 
 .vote-container {
@@ -132,10 +140,9 @@ module.exports = {
 .vote {
   border: 1px black solid;
   height: 25px;
-  width: 25;
+  width: 25px;
   margin: 5px;
   border-radius: 10px;
-  transition: .4s;
   outline: none;
 }
 
@@ -153,7 +160,6 @@ module.exports = {
 }
 
 .vote:hover.selected {
-  background: none;
   cursor: pointer
 }
 
@@ -165,13 +171,11 @@ module.exports = {
 .up:hover:not(.selected) {
   border: 1px lime solid;
   color: lime;
-  transition: .4s;
 }
 
 .up:hover.selected {
-  border: 1px black solid;
-  color: black;
-  transition: .4s;
+  border: 1px rgba(0, 255, 0, .5) solid;
+  color: rgba(0, 255, 0, .5);
 }
 
 .down.selected {
@@ -182,12 +186,10 @@ module.exports = {
 .down:hover:not(.selected) {
   border: 1px red solid;
   color: red;
-  transition: .4s;
 }
 
 .down:hover.selected {
-  border: 1px black solid;
-  color: black;
-  transition: .4s;
+  border: 1px rgba(255, 0, 0, .5) solid;
+  color: rgba(255, 0, 0, .5);
 }
 </style>

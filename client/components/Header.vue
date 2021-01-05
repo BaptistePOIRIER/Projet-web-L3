@@ -6,7 +6,7 @@
         <h1>  Mon dictionnaire </h1>
         <nav>
             <router-link to='/top'>TOP</router-link>
-            <router-link v-if="connected" to='/profil'>Help us</router-link>
+            <router-link v-if="connected" to='/profil'>Contribute</router-link>
             <router-link v-if="connected" to='/profil'>Profil</router-link>
             <router-link v-else to='/login'>Connexion</router-link>
         </nav>
