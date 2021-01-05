@@ -1,15 +1,17 @@
 <template>
   <div class="main-container">
-    <h2 class="top">Pour contribuer, connectez-vous !</h2>
-    <form class="form">
-      <input class="input" v-model="loginInfos.email" placeholder="Email">
-      <input class="input" v-model="loginInfos.password" placeholder="Password">
-    </form>
-    <button class="button abort" @click="abortLogin()">Annuler</button>
-    <button class="button connect" @click="login()">Se connecter</button>
-    <br>
-    <p class="bottom">Vous n'avez pas de compte ?</p>
-    <router-link class="register" to='/register'>Inscrivez-vous !</router-link>
+    <div class="card-container">
+      <h2 class="top">Pour contribuer, connectez-vous !</h2>
+      <form class="form">
+        <input class="input" v-model="loginInfos.email" placeholder="Email">
+        <input class="input" v-model="loginInfos.password" placeholder="Password">
+      </form>
+      <button class="button abort" @click="abortLogin()">Annuler</button>
+      <button class="button connect" @click="login()">Se connecter</button>
+      <br>
+      <p class="bottom">Vous n'avez pas de compte ?</p>
+      <router-link class="register" to='/register'>Inscrivez-vous !</router-link>
+    </div>
   </div>
 </template>
 
@@ -50,13 +52,20 @@ module.exports = {
 }
 
 .main-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.card-container {
+  position: absolute;
   background-color: #393e46;
   text-align: center;
   width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
-  height: 500px;
+  margin: 0% auto;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 350px;
   border-radius: 20px;
 }
 
@@ -81,15 +90,17 @@ module.exports = {
 .input {
   width: 80%;
   height: 40px;
+  margin: 10px;
   background-color: #eeeeee;
   border-radius: 10px;
   text-align: center;
+  border: 3px solid #4ecca3;
 }
 
 .button {
     text-decoration: none;
     color: #eeeeee;
-    padding: 5px 20px;
+    padding: 6px 60px;
     margin: 5px;
     transition: 0.3s ease;
     border: 1px solid #eeeeee;
@@ -114,9 +125,20 @@ module.exports = {
   background-color: #4ecca3;
   clip-path: polygon(100% 0, 100% 80%, 0 100%, 0% 20%);
   height: 40px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .register {
-  color: #eeeeee
+  color: #eeeeee;
+  text-decoration: none;
+  top: 10px
+}
+
+.register:hover {
+  text-decoration: underline;
 }
 </style>

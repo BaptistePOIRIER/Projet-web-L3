@@ -38,7 +38,8 @@ module.exports = {
   },
   data () {
     return {
-      newDefinition: ''
+      newDefinition: '',
+      definitions_amount: 5
     }
   },
   mounted () {

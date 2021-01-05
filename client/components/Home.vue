@@ -67,15 +67,20 @@ module.exports = {
   transition: .4s;
 }
 
+.search:hover{
+  cursor: pointer;
+}
+
 .search:focus {
-  width: 500px;
+  width: 300px;
   color: #eeeeee;
+  cursor: text;
 }
 
 ::placeholder {
   color: #393e4699;
   font-style: italic;
-  transition: .3s;
+  transition: .4s;
 }
 
 .search:hover::placeholder {
