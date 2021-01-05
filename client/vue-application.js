@@ -34,6 +34,7 @@ var app = new Vue({
   async mounted () {
     const res = await axios.get('api/words')
     this.words = res.data
+    this.me()
   },
   methods: {
     async createAccount (newAccount) {
@@ -57,6 +58,15 @@ var app = new Vue({
       catch (error) {
         this.errors.login = error.response.data.message
         this.connected = false
+        console.log(error.response.data);
+      }
+    },
+    async me () {
+      try {
+        await axios.get('api/me')
+        this.connected = true
+      }
+      catch (error) {
         console.log(error.response.data);
       }
     },
