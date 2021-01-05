@@ -2,9 +2,10 @@
   <div class="main-container">
     <div class="card-container">
       <h2 class="top">Pour contribuer, connectez-vous !</h2>
-      <form class="form">
-        <input class="input" v-model="loginInfos.email" placeholder="Email">
-        <input class="input" v-model="loginInfos.password" placeholder="Password">
+      <form class="form" ref="form">
+        <input class="input" v-model="loginInfos.email" placeholder="Email" required>
+        <input class="input" v-model="loginInfos.password" placeholder="Password" required>
+        <p class="error">{{errors.login}}</p>
       </form>
       <button class="button abort" @click="abortLogin()">Annuler</button>
       <button class="button connect" @click="login()">Se connecter</button>
@@ -18,7 +19,8 @@
 <script>
 module.exports = {
   props: {
-    connected: { type: Boolean }
+    connected: { type: Boolean },
+    errors: { type: Object }
   },
   data () {
     return {
@@ -32,10 +34,17 @@ module.exports = {
     if (this.connected) {
       router.push('/')
     }
+    this.errors.register = ''
   },
   methods: {
       login() {
-        this.$emit('login', this.loginInfos)
+        if (this.$refs.form.checkValidity()) {
+          this.$emit('login', this.loginInfos)
+          console.log(this.loginInfos)
+        }
+        else {
+          this.errors.login = 'Fill all inputs!'
+        }
       },
       abortLogin() {
         router.push('/')
@@ -95,6 +104,11 @@ module.exports = {
   border-radius: 10px;
   text-align: center;
   border: 3px solid #4ecca3;
+}
+
+.error {
+  color: #e5707e;
+  height: 30px;
 }
 
 .button {

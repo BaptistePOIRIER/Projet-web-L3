@@ -25,7 +25,11 @@ var app = new Vue({
     words: [],
     word: {},
     definitions: [],
-    connected: false
+    connected: false,
+    errors: {
+      register: '',
+      login: ''
+    }
   },
   async mounted () {
     const res = await axios.get('api/words')
@@ -33,8 +37,15 @@ var app = new Vue({
   },
   methods: {
     async createAccount (newAccount) {
-      const res = await axios.post('api/register', newAccount)
-      console.log(res.data)
+      try {
+        const res = await axios.post('api/register', newAccount)
+        console.log(res.data)
+        router.push('/login')
+      }
+      catch (error) {
+        this.errors.register = error.response.data.message
+        console.log(error.response.data);
+      }
     },
     async login (loginInfos) {
       try {
@@ -43,8 +54,10 @@ var app = new Vue({
         this.connected = true
         router.push('/')
       }
-      catch {
+      catch (error) {
+        this.errors.login = error.response.data.message
         this.connected = false
+        console.log(error.response.data);
       }
     },
     async logout () {

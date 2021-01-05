@@ -30,18 +30,6 @@ router.post('/register', async (req,res) => {
   const email = req.body.email
   const password = req.body.password
 
-  // Récupération des email existants
-  const result_email = await client.query({
-    text: 'SELECT email FROM users'
-  })
-  
-  // Email déjà utilisé dans la base de donnée ?
-  const user_email = result_email.rows.find(a => a.email === email)
-  if (user_email) {
-    res.status(400).json({ message: 'Email already used'})
-    return
-  }
-  
   // Récupération des noms existants
   const result_name = await client.query({
     text: 'SELECT name FROM users'
@@ -51,6 +39,18 @@ router.post('/register', async (req,res) => {
   const user_name = result_name.rows.find(a => a.name === name)
   if (user_name) {
     res.status(400).json({ message: 'Name already used'})
+    return
+  }
+
+  // Récupération des email existants
+  const result_email = await client.query({
+    text: 'SELECT email FROM users'
+  })
+  
+  // Email déjà utilisé dans la base de donnée ?
+  const user_email = result_email.rows.find(a => a.email === email)
+  if (user_email) {
+    res.status(401).json({ message: 'Email already used'})
     return
   }
 
