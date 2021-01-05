@@ -48,6 +48,7 @@ module.exports = {
       },
       abortLogin() {
         router.push('/')
+        this.erros.login = ''
       }
     }
 }
