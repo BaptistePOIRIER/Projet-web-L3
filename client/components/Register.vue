@@ -28,8 +28,7 @@ module.exports = {
           name: '',
           email: '',
           password: ''
-      },
-      errorsMessages: ['Email déja utilisé!','Username déja utilisé!']
+      }
     }
   },
   mounted() {
