@@ -1,15 +1,20 @@
 <template>
-    <div class="header">
-        <router-link to='/'>
-            <img src="./assets/logo.svg">
-        </router-link>
-        <h1>  Mon dictionnaire </h1>
-        <nav>
-            <router-link to='/top'>TOP</router-link>
-            <router-link v-if="connected" to='/profil'>Contribute</router-link>
-            <router-link v-if="connected" to='/profil'>Profil</router-link>
-            <router-link v-else to='/login'>Connexion</router-link>
-        </nav>
+    <div class="container">
+        <div class="left">
+            <img class="left-content" src="./assets/logo.svg">
+        </div>
+        <div class="mid">
+            <h1 class="mid-content"> Mon dictionnaire </h1>
+        </div>
+        <div class="right">
+            <nav class="right-content">
+                <router-link v-if="this.path != '/'" to='/'>Home</router-link>
+                <router-link v-if="this.path != '/top'" to='/top'>TOP</router-link>
+                <router-link v-if="connected" to='/profil'>Contribute</router-link>
+                <router-link v-if="connected" to='/profil'>Profil</router-link>
+                <router-link v-if="this.path != '/login' && this.path != '/register' && !connected" to='/login'>Connexion</router-link>
+            </nav>
+        </div>
     </div>
 </template>
 
@@ -17,6 +22,15 @@
 module.exports = {
   props: {
       connected: Boolean
+  },
+  data () {
+    return {
+      path: ""
+    }
+  },
+  mounted() {
+      this.path = this.$router.currentRoute.path
+      console.log(this.path)
   }
 }
 </script>
@@ -28,7 +42,7 @@ module.exports = {
     font-family: 'Poppins', sans-serif;
     background-color: none;
 }
-.header {
+.container {
     position: sticky;
     top: 0px;
     background-color: #393e46;
@@ -36,27 +50,37 @@ module.exports = {
     border-top: #eeeeee 2px solid;
 
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-content: center;
 }
 
-.header img {
-    width: 300px;
-    height: 100px;
-    transition: .4s;
+.left {
+    width: 50%;
+    flex-shrink: 1;
+    display: flex;
 }
 
-.header img:hover {
-    transform: scale(1.2);
+.left-content {
+    width: 100px;
+    margin-left: 20px;
 }
 
-.header h1 {
-    margin: auto;
+.mid { 
+    flex-shrink: 0;
+}
+
+.mid-content {
+    margin: 20px;
     color: #eeeeee;
     font-size: 40px;
 }
-.header nav {
+
+.right {
+    width: 50%;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.right-content {
     margin: 35px 20px 0px 70px;
 }
 

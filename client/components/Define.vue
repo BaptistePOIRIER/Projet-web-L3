@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-tpl class="header" :connected="connected"></header-tpl>
+        <header-tpl class="header"></header-tpl>
         <div class="card" v-for="(definition , i) in definitions" :key="i">
           <div class="content">
             <h4 v-if="i == 0"> * Meilleur définition *</h4>
