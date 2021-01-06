@@ -60,7 +60,7 @@ module.exports = {
 
 .left-content {
     width: 100px;
-    margin-left: 20px;
+    margin: auto 0px auto 20px;
 }
 
 .mid { 
@@ -81,7 +81,7 @@ module.exports = {
 }
 
 .right-content {
-    margin: 35px 20px 0px 70px;
+    margin: auto 20px auto 0px;
 }
 
 nav * {
