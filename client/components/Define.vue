@@ -1,7 +1,7 @@
 <template>
     <div>
-        <header-tpl class="header"></header-tpl>
-        <div class="card" v-for="(definition , i) in definitions" :key="i">
+        <header-tpl></header-tpl>
+        <div class="card" v-for="(definition , i) in definitions.slice(0, this.definitions_shown)" :key="i">
           <div class="content">
             <h4 class="definition-rank" v-if="i == 0"> #Meilleur définition</h4>
             <h4 class="definition-rank" v-if="i != 0"> #{{i+1}}</h4>
@@ -17,7 +17,10 @@
             </div>
           </div>
         </div>
-        <button v-on:click="loadMore()">Load more</button>
+        <div class="container-show">
+          <button class="button more" v-if="this.definitions_shown < this.definitions.length" v-on:click="showMore()">Show more</button>
+          <button class="button less" v-if="this.definitions_shown > 3" v-on:click="showLess()">Show less</button>
+        </div>
         <form v-if="connected">
           <input type="text" v-model="newDefinition">
           <button @click="submitNewDefinition()">Submit</button>
@@ -40,7 +43,7 @@ module.exports = {
   data () {
     return {
       newDefinition: '',
-      definitions_amount: 3
+      definitions_shown: 3,
     }
   },
   mounted () {
@@ -51,7 +54,6 @@ module.exports = {
     getDefinitions() {
       const parameters = {
         word: this.$route.query.word,
-        limit: this.definitions_amount
       }
       this.$emit('get-definitions', parameters)
     },
@@ -66,7 +68,6 @@ module.exports = {
     vote(definition,vote) {
       const parameters = {
         word: this.word.word,
-        limit: this.definitions_amount,
         definitionId: definition.id,
         value: 0
       }
@@ -87,8 +88,12 @@ module.exports = {
       console.log(parameters)
       this.$emit('vote', parameters)
     },
-    loadMore() {
-      this.definitions_amount += 1
+    showMore() {
+      this.definitions_shown += 3
+      this.getDefinitions()
+    },
+    showLess() {
+      this.definitions_shown -= 3
       this.getDefinitions()
     }
   }
@@ -212,5 +217,36 @@ module.exports = {
 .down:hover.selected {
   border: 1px rgba(255, 0, 0, .5) solid;
   color: rgba(255, 0, 0, .5);
+}
+
+.container-show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.button {
+    text-decoration: none;
+    color: #eeeeee;
+    padding: 6px 60px;
+    margin: 5px;
+    transition: 0.3s ease;
+    border: 1px solid #eeeeee;
+    background-color: #232931;
+}
+        
+.button:hover {
+    color: black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.button.more:hover {
+  background-color: #4ecca3;
+}
+
+.button.less:hover {
+  background-color: #e5707e;
 }
 </style>
