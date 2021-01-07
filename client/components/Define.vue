@@ -3,11 +3,11 @@
         <header-tpl class="header"></header-tpl>
         <div class="card" v-for="(definition , i) in definitions" :key="i">
           <div class="content">
-            <h4 v-if="i == 0"> * Meilleur définition *</h4>
-            <h4 v-if="i != 0"> #{{i+1}}</h4>
+            <h4 class="definition-rank" v-if="i == 0"> #Meilleur définition</h4>
+            <h4 class="definition-rank" v-if="i != 0"> #{{i+1}}</h4>
             <h2 class="word">{{word.word}}</h2>
             <p class="definition">{{definition.definition}}</p>
-            <p>by {{definition.name}}</p>
+            <p class="author">Written by <span class="author-name">{{definition.name}}</span></P>
           </div>
           <div class="rating">
             <p>{{definition.rating}} ★</p>
@@ -108,7 +108,7 @@ module.exports = {
 
 .card {
   margin: 2% 20% 2% 20%;
-  padding: 20px;
+  padding: 15px;
   background-color: #393e46;
   border-radius: 20px;
   display: flex;
@@ -118,8 +118,29 @@ module.exports = {
   border: 2px #eeeeee solid
 }
 
+.definition-rank {
+  margin-bottom: 20px;
+  color: #b3b3b3;
+}
+
 .word {
   text-decoration: underline;
+  color: #eeeeee;
+}
+
+.definition {
+  color: #eeeeee;
+}
+
+.author {
+  margin-top: 20px;
+  color: #b3b3b3;
+  font-size: 14px;
+}
+
+.author-name{
+  text-decoration: underline;
+  color: #eeeeee;
 }
 
 .rating {
