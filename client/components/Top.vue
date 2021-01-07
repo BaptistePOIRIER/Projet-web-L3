@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="main-container">
         <header-tpl :connected="connected"></header-tpl>
         <h1>BEST WORDS AND DEFINITIONS HERE</h1>
     </div>
@@ -16,3 +16,16 @@ module.exports = {
     connected: { type: Boolean }
   }
 }
+</script>
+
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.main-container {
+  text-align: center;
+}
+</style>

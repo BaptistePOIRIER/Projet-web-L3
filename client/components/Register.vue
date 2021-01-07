@@ -71,6 +71,7 @@ module.exports = {
   height: 100%;
   position: relative;
 }
+
 .card-container {
   position: absolute;
   background-color: #393e46;

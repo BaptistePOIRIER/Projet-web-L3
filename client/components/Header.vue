@@ -10,7 +10,7 @@
             <nav class="right-content">
                 <router-link v-if="this.path != '/'" to='/'>Home</router-link>
                 <router-link v-if="this.path != '/top'" to='/top'>TOP</router-link>
-                <router-link v-if="connected" to='/profil'>Contribute</router-link>
+                <router-link v-if="connected" to='/contribute'>Contribute</router-link>
                 <router-link v-if="connected" to='/profil'>Profil</router-link>
                 <router-link v-if="this.path != '/login' && this.path != '/register' && !connected" to='/login'>Connexion</router-link>
             </nav>
