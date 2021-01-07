@@ -107,10 +107,6 @@ module.exports = {
   font-family: 'Poppins', sans-serif;
 }
 
-.main-container {
-  text-align: center;
-}
-
 .card {
   margin: 2% 20% 2% 20%;
   padding: 15px;
@@ -231,6 +227,7 @@ module.exports = {
     color: #eeeeee;
     padding: 6px 60px;
     margin: 5px;
+    transition: 0.3s ease;
     border: 1px solid #eeeeee;
     background-color: #393e46;
     outline: none;
