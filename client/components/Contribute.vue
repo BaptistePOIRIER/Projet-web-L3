@@ -9,6 +9,11 @@
 </template>
 
 <script>
+const HeaderTemplate = window.httpVueLoader('./components/Header.vue')
+
+module.exports = {
+  props: {
+    connected: { type: Boolean }
   },
   components: {
     'header-tpl': HeaderTemplate
