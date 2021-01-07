@@ -47,10 +47,22 @@ router.post('/register', async (req,res) => {
     text: 'SELECT email FROM users'
   })
   
+  // Email n'a pas le bon format
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    res.status(400).json({ message: 'Email format is invalid'})
+    return
+  }
+
   // Email déjà utilisé dans la base de donnée ?
   const user_email = result_email.rows.find(a => a.email === email)
   if (user_email) {
     res.status(401).json({ message: 'Email already used'})
+    return
+  }
+
+  // Mot de passe trop faible
+  if (password.length < 4) {
+    res.status(401).json({ message: 'Password too weak'})
     return
   }
 

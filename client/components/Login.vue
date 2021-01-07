@@ -4,8 +4,8 @@
     <div class="card-container">
       <h2 class="top">Pour contribuer, connectez-vous !</h2>
       <form class="form" ref="form">
-        <input class="input" v-model="loginInfos.email" placeholder="Email" required>
-        <input class="input" v-model="loginInfos.password" placeholder="Password" required>
+        <input class="input" v-model="loginInfos.email" placeholder="Email" type="text" required>
+        <input class="input" v-model="loginInfos.password" placeholder="Password" type="password" required>
         <p class="error">{{errors.login}}</p>
       </form>
       <button class="button abort" @click="abortLogin()">Annuler</button>
@@ -47,6 +47,7 @@ module.exports = {
         if (this.$refs.form.checkValidity()) {
           this.$emit('login', this.loginInfos)
           console.log(this.loginInfos)
+          this.errors.login = ''
         }
         else {
           this.errors.login = 'Fill all inputs!'

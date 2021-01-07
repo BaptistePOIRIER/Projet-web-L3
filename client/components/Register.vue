@@ -5,7 +5,7 @@
       <h2 class="top">Créer un compte</h2>
       <form class="form" ref="form">
         <input class="input" v-model="newAccount.name" placeholder="Name" type="text" required>
-        <input class="input" v-model="newAccount.email" placeholder="Email" type="email" required>
+        <input class="input" v-model="newAccount.email" placeholder="Email" type="text" required>
         <input class="input" v-model="newAccount.password" placeholder="Password" type="password" required>
         <p class="error">{{errors.register}}</p>
       </form>
@@ -45,6 +45,7 @@ module.exports = {
           if(this.$refs.form.checkValidity()) {
             this.$emit('create-account', this.newAccount)
             console.log(this.newAccount)
+            this.erros.register = ''
           }
           else {
             this.errors.register = 'Fill all inputs!'
