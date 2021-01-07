@@ -250,4 +250,42 @@ router.post('/define', async(req,res) => {
   })
   res.status(200).json({ message: 'Successfully registered'})
 })
+
+/**
+ * Cette route permet de récuperer les meilleurs définitions
+ */
+router.get('/top/best', async (req,res) => {
+  const result = await client.query({
+    text: `SELECT definitions.id,words.word,definitions.definition,users.name,COALESCE(rating.rating,0) as Rating
+    FROM definitions 
+    LEFT JOIN words ON definitions.word_id = words.id
+    LEFT JOIN users ON definitions.user_id = users.id
+    LEFT JOIN (SELECT votes.definition_id,SUM(votes.value) as rating FROM votes GROUP BY votes.definition_id) as rating ON rating.definition_id = definitions.id
+    WHERE Rating > 0
+    ORDER BY rating DESC`
+  })
+  //console.log(result.rows)
+  res.json(result.rows)
+})
+
+ /**
+ * Cette route permet de récuperer les pires définitions
+ */
+router.get('/top/worst', async (req,res) => {
+  const result = await client.query({
+    text: `SELECT definitions.id,words.word,definitions.definition,users.name,COALESCE(rating.rating,0) as Rating
+    FROM definitions 
+    LEFT JOIN words ON definitions.word_id = words.id
+    LEFT JOIN users ON definitions.user_id = users.id
+    LEFT JOIN (SELECT votes.definition_id,SUM(votes.value) as rating FROM votes GROUP BY votes.definition_id) as rating ON rating.definition_id = definitions.id
+    WHERE Rating < 0
+    ORDER BY rating ASC`
+  })
+  //console.log(result.rows)
+  res.json(result.rows)
+})
+
+ /**
+ * Cette route permet de récuperer les mots ayant le plus de définitions
+ */
 module.exports = router

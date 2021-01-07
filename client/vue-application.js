@@ -32,7 +32,8 @@ var app = new Vue({
     errors: {
       register: '',
       login: ''
-    }
+    },
+    top: []
   },
   async mounted () {
     const res = await axios.get('api/words')
@@ -102,6 +103,21 @@ var app = new Vue({
     },
     async submitNewDefinition (parameters) {
       const res = await axios.post('api/define', parameters)
+      console.log(res.data)
+    },
+    async getTopBest() {
+      const res = await axios.get('api/top/best')
+      this.top = res.data
+      console.log(res.data)
+    },
+    async getTopWorst() {
+      const res = await axios.get('api/top/worst')
+      this.top = res.data
+      console.log(res.data)
+    },
+    async getTopMost() {
+      const res = await axios.get('api/top/most')
+      this.top = res.data
       console.log(res.data)
     }
   }
