@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-tpl class="header"></header-tpl>
+        <header-tpl :connected="connected"></header-tpl>
         <h1>BEST WORDS AND DEFINITIONS HERE</h1>
     </div>
 </template>

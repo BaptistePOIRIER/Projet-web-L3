@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-tpl></header-tpl>
+        <header-tpl :connected="connected"></header-tpl>
         <div class="card" v-for="(definition , i) in definitions.slice(0, this.definitions_shown)" :key="i">
           <div class="content">
             <h4 class="definition-rank" v-if="i == 0"> #Meilleur définition</h4>
@@ -154,7 +154,7 @@ module.exports = {
   background-color: #232931;
   color: #eeeeee;
   border-radius: 20px;
-  border: 2px #4ecca3 solid
+  border: 2px #eeeeee solid
 }
 
 .vote-container {
@@ -190,33 +190,33 @@ module.exports = {
 }
 
 .up.selected {
-  border: 1px lime solid;
-  color: lime;
+  border: 2px #4ecca3 solid;
+  color: #4ecca3;
 }
 
 .up:hover:not(.selected) {
-  border: 1px lime solid;
-  color: lime;
+  border: 2px #4ecca3 solid;
+  color: #4ecca3;
 }
 
 .up:hover.selected {
-  border: 1px rgba(0, 255, 0, .5) solid;
-  color: rgba(0, 255, 0, .5);
+  border: 2px #4ecca3aa solid;
+  color: #4ecca3aa;
 }
 
 .down.selected {
-  border: 1px red solid;
-  color: red;
+  border: 2px #e5707e solid;
+  color: #e5707e;
 }
 
 .down:hover:not(.selected) {
-  border: 1px red solid;
-  color: red;
+  border: 2px #e5707e solid;
+  color: #e5707e;
 }
 
 .down:hover.selected {
-  border: 1px rgba(255, 0, 0, .5) solid;
-  color: rgba(255, 0, 0, .5);
+  border: 2px #e5707eaa solid;
+  color: #e5707eaa;
 }
 
 .container-show {
@@ -231,9 +231,9 @@ module.exports = {
     color: #eeeeee;
     padding: 6px 60px;
     margin: 5px;
-    transition: 0.3s ease;
     border: 1px solid #eeeeee;
-    background-color: #232931;
+    background-color: #393e46;
+    outline: none;
 }
         
 .button:hover {

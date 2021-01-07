@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <header-tpl class="header"></header-tpl>
+    <header-tpl :connected="connected"></header-tpl>
     <div class="card-container">
       <h2 class="top">Créer un compte</h2>
       <form class="form" ref="form">

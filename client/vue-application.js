@@ -61,7 +61,7 @@ var app = new Vue({
         console.log(error.response.data);
       }
     },
-    async me () {
+    async me() {
       try {
         await axios.get('api/me')
         this.connected = true

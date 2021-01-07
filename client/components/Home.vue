@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <header-tpl class="header" :connected="connected"></header-tpl>
+    <header-tpl :connected="connected"></header-tpl>
     <div class="search-container">
       <input class="search" type="text" placeholder="Search a word" v-model="search" @input="functionTest">
     </div>
@@ -26,6 +26,9 @@ module.exports = {
       search: ""
     }
   },
+  mounted() {
+    this.getWords()
+},
   methods: {
     functionTest() {
       console.log(this.search)
@@ -43,10 +46,6 @@ module.exports = {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
-}
-
-.header {
-  width: 100%;
 }
 
 .search-container {
