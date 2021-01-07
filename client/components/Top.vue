@@ -32,9 +32,19 @@
           <div class="rating">
             <p>{{element.rating}} ★</p>
           </div>
-        </div>      </div>
-      <div class="most" v-if="this.selected == 2">
-        MOST
+        </div>
+      </div>
+      <div v-if="this.selected == 2">
+        <div class="card" v-for="(element , i) in top" :key="i">
+          <div class="content">
+            <h4 class="definition-rank" v-if="i == 0"> #Meilleur mot</h4>
+            <h4 class="definition-rank" v-if="i != 0"> #{{i+1}}</h4>
+            <h2 class="word">{{element.word}}</h2>
+          </div>
+          <div class="rating">
+            <p>{{element.rating}} ★</p>
+          </div>
+        </div>
       </div>
     </div>
 </template>

@@ -288,4 +288,15 @@ router.get('/top/worst', async (req,res) => {
  /**
  * Cette route permet de récuperer les mots ayant le plus de définitions
  */
+router.get('/top/most', async (req,res) => {
+  const result = await client.query({
+    text: `SELECT definitions.word_id,COUNT(definitions.id) as Rating,words.word FROM definitions
+    INNER JOIN (SELECT words.id,words.word FROM words) as words ON definitions.word_id = words.id
+    GROUP BY definitions.word_id,words.word
+    ORDER BY rating DESC`
+  })
+  //console.log(result.rows)
+  res.json(result.rows)
+})
+
 module.exports = router
