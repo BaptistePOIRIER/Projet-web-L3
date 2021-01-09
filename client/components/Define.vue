@@ -150,7 +150,8 @@ module.exports = {
   background-color: #232931;
   color: #eeeeee;
   border-radius: 20px;
-  border: 2px #eeeeee solid
+  border: 2px #eeeeee solid;
+  min-width: 50px;
 }
 
 .vote-container {
