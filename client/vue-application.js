@@ -102,6 +102,7 @@ var app = new Vue({
       this.definitions = res2.data
     },
     async submitNewDefinition (parameters) {
+      console.log(parameters)
       const res = await axios.post('api/define', parameters)
       console.log(res.data)
     },

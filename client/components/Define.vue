@@ -21,10 +21,6 @@
           <button class="button more" v-if="this.definitions_shown < this.definitions.length" v-on:click="showMore()">Show more</button>
           <button class="button less" v-if="this.definitions_shown > 3" v-on:click="showLess()">Show less</button>
         </div>
-        <form v-if="connected">
-          <input type="text" v-model="newDefinition">
-          <button @click="submitNewDefinition()">Submit</button>
-        </form>
     </div>
 </template>
 
@@ -56,14 +52,6 @@ module.exports = {
         word: this.$route.query.word,
       }
       this.$emit('get-definitions', parameters)
-    },
-    submitNewDefinition() {
-      const parameters = {
-        newDefinition: this.newDefinition,
-        id: this.word.id
-      }
-      this.$emit('submit-new-definition', parameters)
-      this.getDefinitions()
     },
     vote(definition,vote) {
       const parameters = {
