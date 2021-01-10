@@ -1,30 +1,33 @@
 <template>
     <div>
-        <header-tpl :connected="connected"></header-tpl>
-        <div class="card">
-          <h1 class="title">New contribution</h1>
-          <label class="label" for="word">Word</label>
-          <input id="word" class="input" type="text" placeholder="Search a word" v-model="newDefinition.word" @input="searchWord">
-          <div class="container" v-if="(newDefinition.word.length > 0 && words.length > 1) || (words.length == 1 && newDefinition.word != words[0].word)">
-            <div v-for="(word, i) in words.slice(0,3)" :key="i">
-              <div class="word-container" @click="completeWord(word.word)">
-                <h4 class="word">{{word.word}}</h4>
-              </div>
+      <header-tpl :connected="connected"></header-tpl>
+      <div class="card">
+        <h1 class="title">New contribution</h1>
+        <label class="label" for="word">Word</label>
+        <input id="word" class="input" type="text" placeholder="Search a word" v-model="newDefinition.word" @input="searchWord">
+        <div class="container" v-if="(newDefinition.word.length > 0 && words.length > 1) || (words.length == 1 && newDefinition.word != words[0].word)">
+          <div v-for="(word, i) in words.slice(0,3)" :key="i">
+            <div class="word-container" @click="completeWord(word.word)">
+              <h4 class="word">{{word.word}}</h4>
             </div>
           </div>
-          <label class="label" for="definition">Definition</label>
-          <textarea id="definition" type="text" v-model="newDefinition.definition" maxlength="300"></textarea>
-          <p class="character-limit">{{newDefinition.definition.length}}/300</p>
-          <p class="error">{{errors.newDefinition}}</p>
-          <button class="button" @click="submit()">Submit</button>
         </div>
-        <div class="card">
-          <h1 class="title">My contribution</h1>
-          <div v-for="(contribution,i) in contributions" :key="i">
-            <h4>{{contribution.word}}</h4>
-            <p>{{contribution.definition}}</p>
+        <label class="label" for="definition">Definition</label>
+        <textarea id="definition" type="text" v-model="newDefinition.definition" maxlength="300"></textarea>
+        <p class="character-limit">{{newDefinition.definition.length}}/300</p>
+        <p class="error">{{errors.newDefinition}}</p>
+        <button class="button" @click="submit()">Submit</button>
+      </div>
+      <div class="card">
+        <h1 class="title">My contributions</h1>
+        <div class="sub-card" v-for="(contribution,i) in contributions" :key="i">
+          <div>
+            <h4 class="white">{{contribution.word}}</h4>
+            <p class="white">{{contribution.definition}}</p>
           </div>
+          <button class="button" @click="deleteContribution(contribution.id)">Delete</button>
         </div>
+      </div>
     </div>
 </template>
 
@@ -85,6 +88,12 @@ module.exports = {
         word: '',
         definition: ''
       }
+    },
+    deleteContribution(id) {
+      const parameters = {
+        id: id
+      }
+      this.$emit('delete-contribution', parameters)
     }
   }
 }
@@ -128,6 +137,10 @@ module.exports = {
 
 .word {
   color: #4ecca3;
+}
+
+.white {
+  color: #eeeeee;
 }
 
 .word-container {
@@ -182,4 +195,15 @@ module.exports = {
     background-color: #4ecca3;
 }
 
+.sub-card{
+  margin: 10px 5px 10px 5px;
+  padding: 15px;
+  background-color: #232931;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  border: 2px #eeeeee solid
+}
 </style>

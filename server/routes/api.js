@@ -302,7 +302,7 @@ router.post('/define', async(req,res) => {
  */
 router.get('/contributions', async (req,res) => {
   const result = await client.query({
-    text: `SELECT definitions.definition,words.word FROM definitions
+    text: `SELECT definitions.id,definitions.definition,words.word FROM definitions
     INNER JOIN words ON words.id = definitions.word_id
     WHERE definitions.user_id = $1`,
     values: [req.session.userId]
@@ -311,6 +311,38 @@ router.get('/contributions', async (req,res) => {
   res.json(result.rows)
 })
 
+/**
+ * Cette route permet de supprimer une contribution de l'utilisateur
+ */
+router.post('/contributions', async(req,res) => {
+  const contributionId = parseInt(req.body.id)
+  console.log(contributionId)
+
+  // Connecté ?
+  if (typeof req.session.userId !== 'number') {
+    res.status(401).send({ message: 'Not logged in' })
+    return
+  }
+
+  // Id correspond bien à une de ses contribution
+  const result_contributions = await client.query({
+    text: 'SELECT id FROM definitions WHERE user_id = $1',
+    values: [req.session.userId]
+  })
+  const exists = result_contributions.rows.find(a => a.id === contributionId)
+  if (!exists) {
+    res.status(400).json({ message: 'This contribution is not yours'})
+    return
+  }
+
+  // Suppression de la contribution
+  await client.query({
+    text: 'DELETE FROM definitions WHERE id = $1',
+    values: [contributionId]
+  })
+  res.status(200).send({ message: 'Contribution succesfully deleted' })
+})
+ 
 /**
  * Cette route permet de récuperer les meilleurs définitions
  */

@@ -118,6 +118,11 @@ var app = new Vue({
       this.contributions = res.data
       console.log(res.data)
     },
+    async deleteContribution(parameters) {
+      const res = await axios.post('api/contributions', parameters)
+      console.log(res.data)
+      this.getContributions()
+    },
     async getTopBest() {
       const res = await axios.get('api/top/best')
       this.top = res.data
