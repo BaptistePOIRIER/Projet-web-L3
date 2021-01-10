@@ -237,6 +237,18 @@ router.post('/define', async(req,res) => {
   const definition = req.body.definition
   console.log(word,definition)
 
+  // Mot n'est pas vide
+  if (word .length == 0) {
+    res.status(404).send({ message: 'No word specified'})
+    return
+  }
+
+  // Définition ne fait pas plus que 300 caractères
+  if (definition.length > 300) {
+    res.status(404).send({ message: 'Too many characters'})
+    return
+  }
+
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
     res.status(401).send({ message: 'Not logged in' })
@@ -283,6 +295,20 @@ router.post('/define', async(req,res) => {
     values: [wordId,definition,req.session.userId]
   })
   res.status(200).json({ message: 'Successfully registered'})
+})
+
+/**
+ * Cette route permet de récuperer les contributions de l'utilisateur
+ */
+router.get('/contributions', async (req,res) => {
+  const result = await client.query({
+    text: `SELECT definitions.definition,words.word FROM definitions
+    INNER JOIN words ON words.id = definitions.word_id
+    WHERE definitions.user_id = $1`,
+    values: [req.session.userId]
+  })
+  //console.log(result.rows)
+  res.json(result.rows)
 })
 
 /**

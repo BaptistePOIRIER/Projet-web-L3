@@ -1,7 +1,7 @@
 <template>
     <div>
         <header-tpl :connected="connected"></header-tpl>
-        <div class="new-contribution">
+        <div class="card">
           <h1 class="title">New contribution</h1>
           <label class="label" for="word">Word</label>
           <input id="word" class="input" type="text" placeholder="Search a word" v-model="newDefinition.word" @input="searchWord">
@@ -12,13 +12,18 @@
               </div>
             </div>
           </div>
-          <label class="label" for="word">Definition</label>
-          <textarea id="definition" class="input" type="text" v-model="newDefinition.definition"></textarea>
+          <label class="label" for="definition">Definition</label>
+          <textarea id="definition" type="text" v-model="newDefinition.definition" maxlength="300"></textarea>
+          <p class="character-limit">{{newDefinition.definition.length}}/300</p>
           <p class="error">{{errors.newDefinition}}</p>
           <button class="button" @click="submit()">Submit</button>
         </div>
-        <div class="my-contributions">
-          My contributions
+        <div class="card">
+          <h1 class="title">My contribution</h1>
+          <div v-for="(contribution,i) in contributions" :key="i">
+            <h4>{{contribution.word}}</h4>
+            <p>{{contribution.definition}}</p>
+          </div>
         </div>
     </div>
 </template>
@@ -30,7 +35,8 @@ module.exports = {
   props: {
     connected: { type: Boolean },
     words: { type: Array },
-    errors: { type: Object }
+    errors: { type: Object },
+    contributions: { type: Array }
   },
   components: {
     'header-tpl': HeaderTemplate
@@ -48,7 +54,7 @@ module.exports = {
       router.push('/login')
     }
     else {
-      this.getWords()
+      this.getContributions()
       this.errors.newDefinition = ''
     }
   },
@@ -60,6 +66,9 @@ module.exports = {
     },
     getWords() {
       this.$emit('get-words', this.newDefinition.word.toLowerCase())
+    },
+    getContributions() {
+      this.$emit('get-contributions')
     },
     completeWord(word) {
       this.newDefinition.word = word
@@ -88,7 +97,7 @@ module.exports = {
   font-family: 'Poppins', sans-serif;
 }
 
-.new-contribution {
+.card {
   margin: 50px 50px 20px 50px;
   padding: 15px;
   background-color: #393e46;
@@ -144,6 +153,11 @@ module.exports = {
 
 .v-for-container {
   margin-left: 20px;
+}
+
+.character-limit{
+  color: #eeeeee;
+  font-size: 14px;
 }
 
 .error {

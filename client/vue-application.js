@@ -34,7 +34,8 @@ var app = new Vue({
       login: '',
       newDefinition: ''
     },
-    top: []
+    top: [],
+    contributions: []
   },
   async mounted () {
     const res = await axios.get('api/words')
@@ -53,7 +54,7 @@ var app = new Vue({
         console.log(error.response.data);
       }
     },
-    async login (loginInfos) {
+    async login (loginInfos) {  
       try {
         const res = await axios.post('api/login', loginInfos)
         console.log(res.data)
@@ -111,6 +112,11 @@ var app = new Vue({
         this.errors.newDefinition = error.response.data.message
         console.log(error.response.data);
       }
+    },
+    async getContributions() {
+      const res = await axios.get('api/contributions')
+      this.contributions = res.data
+      console.log(res.data)
     },
     async getTopBest() {
       const res = await axios.get('api/top/best')
