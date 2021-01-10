@@ -31,7 +31,8 @@ var app = new Vue({
     connected: false,
     errors: {
       register: '',
-      login: ''
+      login: '',
+      newDefinition: ''
     },
     top: []
   },
@@ -102,9 +103,14 @@ var app = new Vue({
       this.definitions = res2.data
     },
     async submitNewDefinition (parameters) {
-      console.log(parameters)
-      const res = await axios.post('api/define', parameters)
-      console.log(res.data)
+      try {
+        const res = await axios.post('api/define', parameters)
+        console.log(res.data)
+      }
+      catch (error) {
+        this.errors.newDefinition = error.response.data.message
+        console.log(error.response.data);
+      }
     },
     async getTopBest() {
       const res = await axios.get('api/top/best')

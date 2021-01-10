@@ -252,7 +252,7 @@ router.post('/define', async(req,res) => {
   // Get wordId
   var wordId = -1
   if (result.rows.length == 0) {
-    const result2 = await client.query({
+    await client.query({
       text: 'INSERT INTO words(word) VALUES ($1)',
       values: [word]
     })
@@ -263,12 +263,19 @@ router.post('/define', async(req,res) => {
     wordId = result3.rows[0].id
   }
   else {
-    console.log("LE MOT EXISTE")
     wordId = result.rows[0].id
   }
 
   // Definition already exisits ?
-
+  const result_definitions = await client.query({
+    text: `SELECT * FROM definitions WHERE word_id = $1`,
+    values: [wordId]
+  })
+  const definitions = result_definitions.rows.find(a => a.definition === definition)
+  if (definitions) {
+    res.status(401).json({ message: 'Definition already exists'})
+    return
+  }
 
   // Stockage de la nouvelle définition
   await client.query({

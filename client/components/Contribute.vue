@@ -14,6 +14,7 @@
           </div>
           <label class="label" for="word">Definition</label>
           <textarea id="definition" class="input" type="text" v-model="newDefinition.definition"></textarea>
+          <p class="error">{{errors.newDefinition}}</p>
           <button class="button" @click="submit()">Submit</button>
         </div>
         <div class="my-contributions">
@@ -28,7 +29,8 @@ const HeaderTemplate = window.httpVueLoader('./components/Header.vue')
 module.exports = {
   props: {
     connected: { type: Boolean },
-    words: { type: Array }
+    words: { type: Array },
+    errors: { type: Object }
   },
   components: {
     'header-tpl': HeaderTemplate
@@ -47,6 +49,7 @@ module.exports = {
     }
     else {
       this.getWords()
+      this.errors.newDefinition = ''
     }
   },
   methods: {
@@ -86,7 +89,7 @@ module.exports = {
 }
 
 .new-contribution {
-  margin: 20px 50px 20px 50px;
+  margin: 50px 50px 20px 50px;
   padding: 15px;
   background-color: #393e46;
   border-radius: 20px;
@@ -141,6 +144,11 @@ module.exports = {
 
 .v-for-container {
   margin-left: 20px;
+}
+
+.error {
+  color: #e5707e;
+  height: 30px;
 }
 
 .button {
