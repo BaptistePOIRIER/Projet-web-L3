@@ -233,7 +233,7 @@ router.post('/vote', async(req,res) => {
  * Cette route permet de créer une définition
  */
 router.post('/define', async(req,res) => {
-  const word = req.body.word
+  const word = req.body.word.toLowerCase()
   const definition = req.body.definition
   console.log(word,definition)
 
