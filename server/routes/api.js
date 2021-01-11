@@ -1,26 +1,16 @@
 const express = require('express')
 const router = express.Router()
-//const articles = require('../data/articles.js')
 const bcrypt = require('bcrypt')
 const { Client } = require('pg')
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Décomenter les lignes suivantes pour utiliser la base de donnée en ligne
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
  }
 })
-
-// Décommenter les lignes suivantes pour utiliser la base de donnée locale
-//const client = new Client({
-//  user: 'postgres',
-//  host: 'localhost',
-//  password: 'secret',
-//  database: 'Projet-web-L3'
-//})
 
 client.connect()
 

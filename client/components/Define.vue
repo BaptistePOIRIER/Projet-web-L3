@@ -18,8 +18,8 @@
           </div>
         </div>
         <div class="container-show">
-          <button class="button more" v-if="this.definitions_shown < this.definitions.length" v-on:click="showMore()">Show more</button>
-          <button class="button less" v-if="this.definitions_shown > 3" v-on:click="showLess()">Show less</button>
+          <button class="button more" v-if="this.definitions_shown < this.definitions.length" v-on:click="showMore()">Afficher plus</button>
+          <button class="button less" v-if="this.definitions_shown > 3" v-on:click="showLess()">Afficher moins</button>
         </div>
     </div>
 </template>
