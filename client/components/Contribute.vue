@@ -13,7 +13,7 @@
           </div>
         </div>
         <label class="label" for="definition">Definition</label>
-        <textarea id="definition" type="text" v-model="newDefinition.definition" maxlength="300"></textarea>
+        <textarea class="input" id="definition" type="text" v-model="newDefinition.definition" maxlength="300"></textarea>
         <p class="character-limit">{{newDefinition.definition.length}}/300</p>
         <p class="error">{{errors.newDefinition}}</p>
         <button class="button" @click="submit()">Submit</button>

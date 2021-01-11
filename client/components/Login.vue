@@ -55,7 +55,7 @@ module.exports = {
       },
       abortLogin() {
         router.push('/')
-        this.erros.login = ''
+        this.errors.login = ''
       }
     }
 }

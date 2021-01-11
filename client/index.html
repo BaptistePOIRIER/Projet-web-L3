@@ -19,6 +19,7 @@
               :word="word"
               :definitions="definitions"
               :connected="connected"
+              :user="user"
               :errors="errors"
               :top="top"
               :contributions="contributions"
@@ -35,6 +36,7 @@
               @submit-new-definition="submitNewDefinition"
               @get-contributions="getContributions"
               @delete-contribution="deleteContribution"
+              @edit-name="editName"
             ></router-view>
           </main>
         </div>

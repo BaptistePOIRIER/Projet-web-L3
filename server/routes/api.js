@@ -124,12 +124,44 @@ router.get('/me', async (req,res) => {
 
   // Récupération des email existants
   const result = await client.query({
-    text: 'SELECT email,id FROM users'
+    text: 'SELECT name,email,id FROM users'
   })
 
   // Récupération de l'utilisateur connecté
   const user = result.rows.find(a => a.id === req.session.userId)
   res.status(200).json(user)
+})
+
+/**
+ * Cette route permet de modifier le nom de l'utilisateur
+ */
+router.post('/me', async (req,res) => {
+  const name = req.body.name
+
+  // Connecté ?
+  if (typeof req.session.userId !== 'number') {
+    res.status(401).send({ message: 'Not logged in' })
+    return
+  }
+
+  // Nom d'utilisateur pas utilisé ?
+  const result_name = await client.query({
+    text: 'SELECT name FROM users'
+  })
+  
+  // Nom déjà utilisé dans la base de donnée ?
+  const user_name = result_name.rows.find(a => a.name === name)
+  if (user_name) {
+    res.status(400).json({ message: 'Name already used'})
+    return
+  }
+
+  // Edit name
+  await client.query({
+    text: `UPDATE users SET name = $1 WHERE id = $2`,
+    values: [name,req.session.userId]
+  })
+  res.status(200).json({ message: 'Name changed succefully'})
 })
 
 /**

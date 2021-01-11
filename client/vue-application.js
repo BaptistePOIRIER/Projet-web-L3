@@ -29,10 +29,12 @@ var app = new Vue({
     word: {},
     definitions: [],
     connected: false,
+    user: {},
     errors: {
       register: '',
       login: '',
-      newDefinition: ''
+      newDefinition: '',
+      profil: ''
     },
     top: [],
     contributions: []
@@ -58,7 +60,7 @@ var app = new Vue({
       try {
         const res = await axios.post('api/login', loginInfos)
         console.log(res.data)
-        this.connected = true
+        this.me()
         router.push('/')
       }
       catch (error) {
@@ -69,7 +71,8 @@ var app = new Vue({
     },
     async me() {
       try {
-        await axios.get('api/me')
+        const res = await axios.get('api/me')
+        this.user = res.data
         this.connected = true
       }
       catch (error) {
@@ -137,6 +140,10 @@ var app = new Vue({
       const res = await axios.get('api/top/most')
       this.top = res.data
       console.log(res.data)
+    },
+    async editName(parameters) {
+      const res = await axios.post('api/me', parameters)
+      this.me()
     }
   }
 })
