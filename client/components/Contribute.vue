@@ -2,7 +2,7 @@
     <div>
       <header-tpl :connected="connected"></header-tpl>
       <div class="card">
-        <h1 class="title">New contribution</h1>
+        <h1 class="title">Nouvelle contribution</h1>
         <label class="label" for="word">Word</label>
         <input id="word" class="input" type="text" placeholder="Search a word" v-model="newDefinition.word" @input="searchWord" required>
         <div class="container" v-if="(newDefinition.word.length > 0 && words.length > 1) || (words.length == 1 && newDefinition.word != words[0].word)">
@@ -19,7 +19,7 @@
         <button class="button" @click="submit()">Submit</button>
       </div>
       <div class="card">
-        <h1 class="title">My contributions</h1>
+        <h1 class="title">Mes contributions</h1>
         <div class="sub-card" v-for="(contribution,i) in contributions" :key="i">
           <div>
             <h4 class="white">{{contribution.word}}</h4>
