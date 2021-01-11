@@ -4,9 +4,9 @@
     <div class="card-container">
       <h2 class="top">Créer un compte</h2>
       <form class="form" ref="form">
-        <input class="input" v-model="newAccount.name" placeholder="Name" type="text" required>
+        <input class="input" v-model="newAccount.name" placeholder="Nom" type="text" required>
         <input class="input" v-model="newAccount.email" placeholder="Email" type="text" required>
-        <input class="input" v-model="newAccount.password" placeholder="Password" type="password" required>
+        <input class="input" v-model="newAccount.password" placeholder="Mot de passe" type="password" required>
         <p class="error">{{errors.register}}</p>
       </form>
       <button class="button abort" @click="abortRegister()">Annuler</button>
@@ -48,7 +48,7 @@ module.exports = {
             this.erros.register = ''
           }
           else {
-            this.errors.register = 'Fill all inputs!'
+            this.errors.register = 'Remplissez tous les champs!'
           }
       },
       abortRegister() {

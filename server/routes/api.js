@@ -6,19 +6,21 @@ const { Client } = require('pg')
 const dotenv = require('dotenv');
 dotenv.config();
 
+// Décomenter les lignes suivantes pour utiliser la base de donnée en ligne
 const client = new Client({
- connectionString: process.env.DATABASE_URL,
- ssl: {
-     rejectUnauthorized: false
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
  }
 })
 
+// Décommenter les lignes suivantes pour utiliser la base de donnée locale
 //const client = new Client({
 //  user: 'postgres',
 //  host: 'localhost',
 //  password: 'secret',
 //  database: 'Projet-web-L3'
-// })
+//})
 
 client.connect()
 
@@ -38,7 +40,7 @@ router.post('/register', async (req,res) => {
   // Nom déjà utilisé dans la base de donnée ?
   const user_name = result_name.rows.find(a => a.name === name)
   if (user_name) {
-    res.status(400).json({ message: 'Name already used'})
+    res.status(400).json({ message: 'Nom déjà utilisé'})
     return
   }
 
@@ -49,20 +51,20 @@ router.post('/register', async (req,res) => {
   
   // Email n'a pas le bon format
   if (!/\S+@\S+\.\S+/.test(email)) {
-    res.status(400).json({ message: 'Email format is invalid'})
+    res.status(400).json({ message: `Le format de l'email est incorrect`})
     return
   }
 
   // Email déjà utilisé dans la base de donnée ?
   const user_email = result_email.rows.find(a => a.email === email)
   if (user_email) {
-    res.status(401).json({ message: 'Email already used'})
+    res.status(401).json({ message: 'Email déjà utilisé'})
     return
   }
 
   // Mot de passe trop faible
   if (password.length < 4) {
-    res.status(401).json({ message: 'Password too weak'})
+    res.status(401).json({ message: 'Mot de passe trop simple'})
     return
   }
 
@@ -74,7 +76,7 @@ router.post('/register', async (req,res) => {
     text: 'INSERT INTO users(name,email,password) VALUES ($1,$2,$3)',
     values: [name,email,hash]
   })
-  res.status(200).json({ message: 'Successfully registered'})
+  res.status(200).json({ message: 'Enregistré avec succès'})
 })
   
 /**
@@ -92,7 +94,7 @@ router.post('/login', async (req,res) => {
   // Utilisateurs absent de la base de donnée ?
   const user = result.rows.find(a => a.email === email)
   if (!user) {
-    res.status(400).json({ message: 'Email cannot be found'})
+    res.status(400).json({ message: 'Email introuvable'})
     return
   }
   
@@ -100,16 +102,16 @@ router.post('/login', async (req,res) => {
   if (await bcrypt.compare(password, user.password)) {
     // Déjà connecté
     if(req.session.userId == user.id) {
-      res.status(401).json({ message: 'Already connected'})
+      res.status(401).json({ message: 'Déjà connecté'})
     }else {
       // Connexion
       req.session.userId = user.id
-      res.status(200).json({ message: 'Successfully connected'})
+      res.status(200).json({ message: 'Connecté avec succès'})
     }
     return
   }
   // Mauvais mot de passe
-  res.status(400).json({ message: 'Wrong password'})
+  res.status(400).json({ message: 'Mauvais mot de passe'})
 })
 
 /**
@@ -118,7 +120,7 @@ router.post('/login', async (req,res) => {
 router.get('/me', async (req,res) => {
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
-    res.status(401).send({ message: 'Not logged in' })
+    res.status(401).send({ message: `Vous n'êtes pas connecté` })
     return
   }
 
@@ -140,7 +142,7 @@ router.post('/me', async (req,res) => {
 
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
-    res.status(401).send({ message: 'Not logged in' })
+    res.status(401).send({ message: `Vous n'êtes pas connecté` })
     return
   }
 
@@ -152,7 +154,7 @@ router.post('/me', async (req,res) => {
   // Nom déjà utilisé dans la base de donnée ?
   const user_name = result_name.rows.find(a => a.name === name)
   if (user_name) {
-    res.status(400).json({ message: 'Name already used'})
+    res.status(400).json({ message: 'Nom déjà utilisé'})
     return
   }
 
@@ -161,7 +163,7 @@ router.post('/me', async (req,res) => {
     text: `UPDATE users SET name = $1 WHERE id = $2`,
     values: [name,req.session.userId]
   })
-  res.status(200).json({ message: 'Name changed succefully'})
+  res.status(200).json({ message: 'Nom changé avec succès'})
 })
 
 /**
@@ -169,7 +171,7 @@ router.post('/me', async (req,res) => {
  */
 router.post('/logout', async (req,res) => {
   req.session.destroy()
-  res.status(200).json({ message: 'Succesfully disconnected'})
+  res.status(200).json({ message: 'Déconnexion'})
 })
 
 /**
@@ -241,7 +243,7 @@ router.post('/vote', async(req,res) => {
 
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
-    res.status(401).send({ message: 'Not logged in' })
+    res.status(401).send({ message: `Vous n'êtes pas connecté` })
     return
   }
 
@@ -258,7 +260,7 @@ router.post('/vote', async(req,res) => {
       values: [req.session.userId,definitionId,value]
     })
   }
-  res.status(200).send({ message: 'Succesfully registered vote'})
+  res.status(200).send({ message: 'Vote enregistré avec succès'})
 })
 
 /**
@@ -271,19 +273,19 @@ router.post('/define', async(req,res) => {
 
   // Mot n'est pas vide
   if (word .length == 0) {
-    res.status(404).send({ message: 'No word specified'})
+    res.status(404).send({ message: 'Pas de mot spécifié'})
     return
   }
 
   // Définition ne fait pas plus que 300 caractères
   if (definition.length > 300) {
-    res.status(404).send({ message: 'Too many characters'})
+    res.status(404).send({ message: 'Trop de caractères'})
     return
   }
 
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
-    res.status(401).send({ message: 'Not logged in' })
+    res.status(401).send({ message: `Vous n'êtes pas connecté` })
     return
   }
 
@@ -317,7 +319,7 @@ router.post('/define', async(req,res) => {
   })
   const definitions = result_definitions.rows.find(a => a.definition === definition)
   if (definitions) {
-    res.status(401).json({ message: 'Definition already exists'})
+    res.status(401).json({ message: 'Cette définition a déjà été proposée'})
     return
   }
 
@@ -326,7 +328,7 @@ router.post('/define', async(req,res) => {
     text: 'INSERT INTO definitions(word_id,definition,user_id) VALUES($1,$2,$3)',
     values: [wordId,definition,req.session.userId]
   })
-  res.status(200).json({ message: 'Successfully registered'})
+  res.status(200).json({ message: 'Enregistré avec succès'})
 })
 
 /**
@@ -352,7 +354,7 @@ router.post('/contributions', async(req,res) => {
 
   // Connecté ?
   if (typeof req.session.userId !== 'number') {
-    res.status(401).send({ message: 'Not logged in' })
+    res.status(401).send({ message: `Vous n'êtes pas connecté` })
     return
   }
 
@@ -363,7 +365,7 @@ router.post('/contributions', async(req,res) => {
   })
   const exists = result_contributions.rows.find(a => a.id === contributionId)
   if (!exists) {
-    res.status(400).json({ message: 'This contribution is not yours'})
+    res.status(400).json({ message: 'Cette contribution ne vous appartient pas'})
     return
   }
 
@@ -372,7 +374,7 @@ router.post('/contributions', async(req,res) => {
     text: 'DELETE FROM definitions WHERE id = $1',
     values: [contributionId]
   })
-  res.status(200).send({ message: 'Contribution succesfully deleted' })
+  res.status(200).send({ message: 'Contribution supprimer avec succès' })
 })
  
 /**

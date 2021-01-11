@@ -2,7 +2,7 @@
   <div class="main-container">
     <header-tpl :connected="connected"></header-tpl>
     <div class="search-container">
-      <input class="search" type="text" placeholder="Search a word" v-model="search" @input="searchWord">
+      <input class="search" type="text" placeholder="Rechercher..." v-model="search" @input="searchWord">
     </div>
     <words-tpl :words="words"></words-tpl>
   </div>

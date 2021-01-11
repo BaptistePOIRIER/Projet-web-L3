@@ -4,7 +4,7 @@
       <div class="card">
         <h1 class="title">New contribution</h1>
         <label class="label" for="word">Word</label>
-        <input id="word" class="input" type="text" placeholder="Search a word" v-model="newDefinition.word" @input="searchWord">
+        <input id="word" class="input" type="text" placeholder="Search a word" v-model="newDefinition.word" @input="searchWord" required>
         <div class="container" v-if="(newDefinition.word.length > 0 && words.length > 1) || (words.length == 1 && newDefinition.word != words[0].word)">
           <div v-for="(word, i) in words.slice(0,3)" :key="i">
             <div class="word-container" @click="completeWord(word.word)">
@@ -13,7 +13,7 @@
           </div>
         </div>
         <label class="label" for="definition">Definition</label>
-        <textarea class="input" id="definition" type="text" v-model="newDefinition.definition" maxlength="300"></textarea>
+        <textarea class="input" id="definition" type="text" v-model="newDefinition.definition" maxlength="300" required></textarea>
         <p class="character-limit">{{newDefinition.definition.length}}/300</p>
         <p class="error">{{errors.newDefinition}}</p>
         <button class="button" @click="submit()">Submit</button>
@@ -78,6 +78,11 @@ module.exports = {
       this.getWords()
     },
     submit() {
+      this.errors.newDefinition = ''
+      if (!this.$refs.form.checkValidity()) {
+        this.errors.newDefinition = 'Remplissez tous les champs!'
+        return
+      }
       const parameters = {
         word: this.newDefinition.word,
         definition: this.newDefinition.definition

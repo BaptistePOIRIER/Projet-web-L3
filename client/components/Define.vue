@@ -7,7 +7,7 @@
             <h4 class="definition-rank" v-if="i != 0"> #{{i+1}}</h4>
             <h2 class="word">{{word.word}}</h2>
             <p class="definition">{{definition.definition}}</p>
-            <p class="author">Written by <span class="author-name">{{definition.name}}</span></P>
+            <p class="author">Proposée par <span class="author-name">{{definition.name}}</span></P>
           </div>
           <div class="rating">
             <p>{{definition.rating}} ★</p>

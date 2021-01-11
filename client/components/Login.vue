@@ -5,7 +5,7 @@
       <h2 class="top">Pour contribuer, connectez-vous !</h2>
       <form class="form" ref="form">
         <input class="input" v-model="loginInfos.email" placeholder="Email" type="text" required>
-        <input class="input" v-model="loginInfos.password" placeholder="Password" type="password" required>
+        <input class="input" v-model="loginInfos.password" placeholder="Mot de passe" type="password" required>
         <p class="error">{{errors.login}}</p>
       </form>
       <button class="button abort" @click="abortLogin()">Annuler</button>
@@ -50,7 +50,7 @@ module.exports = {
           this.errors.login = ''
         }
         else {
-          this.errors.login = 'Fill all inputs!'
+          this.errors.login = 'Remplissez tous les champs!'
         }
       },
       abortLogin() {

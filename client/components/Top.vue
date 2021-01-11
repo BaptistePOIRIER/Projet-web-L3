@@ -2,9 +2,9 @@
     <div>
       <header-tpl :connected="connected"></header-tpl>
       <div class="button-container">
-        <button class="button select-best" v-on:click="clickButton(0)" v-bind:class="{ selected: selected == 0 }">Best definitions</button>
-        <button class="button select-worst" v-on:click="clickButton(1)" v-bind:class="{ selected: selected == 1 }">Worst definitions</button>
-        <button class="button select-most" v-on:click="clickButton(2)" v-bind:class="{ selected: selected == 2 }">Best word</button>
+        <button class="button select-best" v-on:click="clickButton(0)" v-bind:class="{ selected: selected == 0 }">Meilleurs definitions</button>
+        <button class="button select-worst" v-on:click="clickButton(1)" v-bind:class="{ selected: selected == 1 }">Pires definitions</button>
+        <button class="button select-most" v-on:click="clickButton(2)" v-bind:class="{ selected: selected == 2 }">Meilleurs mots</button>
       </div>
       <div v-if="this.selected == 0">
         <div class="card" v-for="(element , i) in top" :key="i">
@@ -13,7 +13,7 @@
             <h4 class="definition-rank" v-if="i != 0"> #{{i+1}}</h4>
             <h2 class="word">{{element.word}}</h2>
             <p class="definition">{{element.definition}}</p>
-            <p class="author">Written by <span class="author-name">{{element.name}}</span></P>
+            <p class="author">Proposée par <span class="author-name">{{element.name}}</span></P>
           </div>
           <div class="rating">
             <p>{{element.rating}} ★</p>
